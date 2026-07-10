@@ -7,9 +7,9 @@ chosen_word = random.choice(word_list)
 print(hangman_art.logo)
 lives = 6
 guessed_letters = set()
-game_over = False
 
-while not game_over:
+while lives > 0:
+    print(f"***** GUESSED LETTERS: {' '.join(sorted(guessed_letters))} *****")
     guess = input("Guess a letter: ").lower()
     print()
     display = ""
@@ -26,13 +26,15 @@ while not game_over:
         if lives == 0:
             game_over = True
             print(f"***** YOU LOST! THE WORD WAS {chosen_word} *****")
+            break
         else:
             print(f"***** {guess} NOT IN THE WORD; LOSE A LIFE *****")
+
+    guessed_letters.add(guess)
 
     for letter in chosen_word:
         if letter == guess:
             display += letter
-            guessed_letters.add(guess)
         elif letter in guessed_letters:
             display += letter
         else:
@@ -41,9 +43,10 @@ while not game_over:
     if "_" not in display:
         game_over = True
         print(f"***** YOU WON! THE WORD WAS {chosen_word} *****")
+        break
     else:
         print(hangman_art.stages[lives])
-        print(display)
+        print(" ".join(display))
         print()
 
 
